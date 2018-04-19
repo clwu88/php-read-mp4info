@@ -60,7 +60,7 @@ function IphoneMp4Probe($mp4_filename)
         $type = $box_header['type'];
 
         if (1 == $box_header['size']) { // 64 bit extended size
-            $buffer = fread($fd, 8); // read in box header
+            $buffer = fread($fd, 8); // read in 64 bit extended size
             // $size = array_pop( unpack('J', $buffer) ); // PHP Warning:  unpack(): Invalid format type J
             // v_v 公司用的PHP5.5 不支持 J 参数，用下面方式得到64bit的长度值，与上面一句注释了的代码一样效果
             $num64 = unpack('N2', $buffer);
