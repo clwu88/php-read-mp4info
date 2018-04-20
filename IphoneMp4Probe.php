@@ -59,7 +59,9 @@ function IphoneMp4Probe($mp4_filename)
         $size = $box_header['size'];
         $type = $box_header['type'];
 
-        if (1 == $box_header['size']) { // 64 bit extended size
+        $is_extended_size = (1 == $box_header['size']); // 64 bit extended size
+
+        if ($is_extended_size) { // 64 bit extended size
             $buffer = fread($fd, 8); // read in 64 bit extended size
             // $size = array_pop( unpack('J', $buffer) ); // PHP Warning:  unpack(): Invalid format type J
             // v_v 公司用的PHP5.5 不支持 J 参数，用下面方式得到64bit的长度值，与上面一句注释了的代码一样效果
@@ -68,16 +70,16 @@ function IphoneMp4Probe($mp4_filename)
         }
 
         if ("moov" == $type) {
-            $decoded_len += 8 + (1 == $box_header['size'] ? 8 : 0); // 进入这个container box
+            $decoded_len += 8 + ($is_extended_size ? 8 : 0); // 进入这个container box
             continue; // continue fread mvhd
         } else if ("trak" == $type) {
-            $decoded_len += 8 + (1 == $box_header['size'] ? 8 : 0); // 进入这个container box
+            $decoded_len += 8 + ($is_extended_size ? 8 : 0); // 进入这个container box
             continue; // continue fread tkhd
         } else if ("tkhd" == $type) {
             // tkhd 的结构 @see http://blog.sina.com.cn/s/blog_48f93b530100jz4b.html
             $buffer = fread($fd, 1); // version
             fread($fd, 3);           // flags
-            $version = array_pop( unpack('c', $buffer) );
+            $version = current( unpack('c', $buffer) );
             if (1 == $version) {
                 fread($fd, 8); // 64bit creation time
                 fread($fd, 8); // 64bit modification time
@@ -96,6 +98,7 @@ function IphoneMp4Probe($mp4_filename)
             $buffer = fread($fd, 36); // matrix 视频变换矩阵
                       fread($fd, 4);  // width 宽
                       fread($fd, 4);  // height 高，均为 [16.16] 格式值，与sample描述中的实际画面大小比值，用于播放时的展示宽高
+
             $matrix = unpack('N9', $buffer); // unpack 没有参数可以转换为 signed long (always 32 bit, big endian byte order)，在下面的比较中需要把 有符号-65536 转换为 无符号4294901760
             $display_matrix = [
               [ $matrix[1], $matrix[2], $matrix[3] ],
@@ -125,3 +128,5 @@ function IphoneMp4Probe($mp4_filename)
     fclose($fd);
     return $rotate;
 }
+
+echo IphoneMp4Probe($argv[1]), PHP_EOL;
