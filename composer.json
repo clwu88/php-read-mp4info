@@ -1,0 +1,23 @@
+{
+    "name": "clwu/mp4-rotate-probe",
+    "type": "library",
+    "description": "detect the rotation degrees of MP4 video",
+    "keywords": ["mp4","video","rotate", "rotation"],
+    "homepage": "https://gitee.com/clwu/IphoneMp4Probe",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "clwu",
+            "email": "chaolong.wu@qq.com",
+            "homepage": "https://github.com/clwu88"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clwu\\Mp4\\": "src/Clwu/Mp4",
+        }
+    }
+}
