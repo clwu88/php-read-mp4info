@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Clwu\\Mp4\\": "src/Clwu/Mp4",
+            "Clwu\\Mp4\\": "src/Clwu/Mp4"
         }
     }
 }
