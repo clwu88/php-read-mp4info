@@ -1,9 +1,9 @@
 {
-    "name": "clwu/mp4-rotate-probe",
+    "name": "clwu/php-read-mp4info",
     "type": "library",
-    "description": "detect the rotation degrees of MP4 video",
-    "keywords": ["mp4","video","rotate", "rotation"],
-    "homepage": "https://gitee.com/clwu/IphoneMp4Probe",
+    "description": "detect the rotate/width/height ... of MP4 video",
+    "keywords": ["mp4","video","rotate", "rotation", "width", "height"],
+    "homepage": "https://github.com/clwu88/php-read-mp4info",
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Clwu\\Mp4\\": "src/Clwu/Mp4"
+            "Clwu\\": "src/Clwu"
         }
     }
 }
